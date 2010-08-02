@@ -1,0 +1,30 @@
+- content_for :page_scripts do 
+  :plain
+    document.observe('dom:loaded', function(){ 
+      $('uploader').down('form.button_form input[type=submit]').hide()
+      $('uploader').hide()
+    })
+    Event.addBehavior({
+      'a.replace:click': function(){
+        debugger
+        var ref = this.readAttribute('href').sub(/\#/,'')
+        $(ref).show();
+        this.hide();
+      },
+      'input[type=file]:change': function(){
+        this.up('form').down('input[type=submit]').show();
+      }
+    });
+- content_for :page_css do
+  :sass
+    #actions
+      #uploader
+        display: inline
+      form.button_form
+        font-size: 80%
+        background: #fff
+        border-radius: 5px
+        -moz-border-radius= 5px
+        -webkit-border-radius= 5px
+        display: inline
+        padding: 8px 12px

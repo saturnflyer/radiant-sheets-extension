@@ -9,6 +9,20 @@ class Admin::StylesController < Admin::ResourceController
   prepend_before_filter :find_root
   prepend_before_filter :create_root, :only => :new
   
+  def upload
+    if params[:upload].blank?  # necessary params are missing
+      render :text => '', :status => :bad_request
+    else
+      @sheet = model_class.create_from_upload(params[:upload][:upload])
+      if @sheet.valid?
+        redirect_to admin_styles_path
+      else
+        flash[:error] = "There was an error. #{@sheet.errors.full_messages}"
+        redirect_to admin_styles_path
+      end
+    end
+  end
+  
   def new
     self.model = model_class.new_with_defaults
     response_for :new

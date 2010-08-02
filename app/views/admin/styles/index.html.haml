@@ -1,3 +1,4 @@
+= render 'admin/sheets/upload_script'
 .outset
   %table.index
     %thead
@@ -16,3 +17,11 @@
   = pagination_for(models)
   %ul
     %li= link_to image('plus') + " " + t("new_stylesheet"), new_admin_style_path
+    %li
+      = link_to t("upload"), '#uploader', :class => 'replace'
+      #uploader
+        - form_for :upload, :url => upload_admin_styles_path, :html => { :class => 'button_form', :multipart => true } do |f|
+          %span
+            = f.label :upload
+            = f.file_field :upload 
+            = f.submit 'Create Stylesheet'
