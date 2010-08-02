@@ -1,0 +1,18 @@
+.outset
+  %table.index
+    %thead
+      %tr
+        %th Javascript
+        %th Modify
+    %tbody
+      - models.each do |javascript|
+        %tr
+          %td.name
+            = image('javascript') 
+            = link_to javascript.title, edit_admin_script_path(javascript)
+          %td.actions= link_to(image('minus') + ' ' + t('remove'), admin_script_url(javascript), :class => "action", :method => :delete, :confirm => "Is it OK to delete #{javascript.slug}?")
+
+#actions
+  = pagination_for(models)
+  %ul
+    %li= link_to image('plus') + " " + t("new_javascript"), new_admin_script_path

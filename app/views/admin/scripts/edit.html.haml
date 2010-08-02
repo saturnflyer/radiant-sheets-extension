@@ -1,0 +1,21 @@
+%h1= model.new_record? ? t('new_javascript') : t('edit_javascript')
+- form_for [:admin, model], 
+  :url => (model.new_record? ? admin_scripts_url : admin_script_url(model)) do |f|
+  %p.title
+    = label :sheet_page, :slug, 'Slug'
+    = f.text_field :slug, :class => 'textbox', :maxlength => 255, :id => 'sheet_page_slug'
+    %span.hint= %{#{t('path')}: #{@root.url}<span id="this_slug">#{model.slug}</span>}
+  - f.fields_for :parts do |p|
+    %p
+      %span.reference_links
+        %span{:id => "tag_reference_link_body"}
+          = link_to_function t('available_tags'), "loadTagReference('body');"
+    %div
+      = p.hidden_field :name, :value => 'body' if model.new_record?
+      = p.text_area :content, :class => 'textarea large', :style => 'width: 100%'
+  %p.buttons{:style=>"clear: left"}
+    = save_model_button(model)
+    = save_model_and_continue_editing_button(model)
+    = t('or')
+    = link_to t('cancel'), admin_scripts_url
+= render 'admin/sheets/watch_slug'

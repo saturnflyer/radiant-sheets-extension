@@ -1,0 +1,21 @@
+- content_for :page_scripts do 
+  :plain
+    Event.addBehavior({
+      'input#sheet_page_slug': function(){
+        var slug = this;
+        var this_slug = $('this_slug');
+        new Form.Element.Observer(slug, 0.15, function() {
+          this_slug.innerHTML = slug.value.toSlug(true);
+        });
+      }
+    });
+    var tagReferenceWindows = {};
+    function loadTagReference(part) {
+      var pageType = '#{model.class_name}';
+      if (!tagReferenceWindows[pageType])
+        tagReferenceWindows[pageType] = new Popup.AjaxWindow("#{admin_reference_path('tags')}?class_name=" + encodeURIComponent(pageType), {reload: false});
+      var window = tagReferenceWindows[pageType];
+      $('tag_reference_link_' + part).highlight();
+      window.show();
+      return false;
+    }
