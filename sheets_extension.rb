@@ -44,6 +44,11 @@ class SheetsExtension < Radiant::Extension
         false
       end
       
+      def allowed_children
+        sheets = [JavascriptPage, StylesheetPage]
+        [default_child, *Page.descendants.sort_by(&:name)] - sheets
+      end
+      
       include JavascriptTags
       include StylesheetTags
     end
