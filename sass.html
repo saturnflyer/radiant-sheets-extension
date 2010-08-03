@@ -1,0 +1,82 @@
+<h1 id='features'>Features</h1>
+        
+        <p>Although it&#8217;s nice that every CSS file is a valid SCSS file, that&#8217;s not why you&#8217;re learning about SCSS. You&#8217;re learning because it offers <em>more</em> than CSS. SCSS provides all sorts of useful features on top of CSS. This tutorial will walk you through some of the most fundamental ones, along with examples that you can add to your <code>style.scss</code> and play with.</p>
+        
+        <h2 id='nesting'>Nesting</h2>
+        
+        <p>Often when writing CSS, you&#8217;ll have several selectors that all begin with the same thing. For example, you might have &#8220;#navbar ul&#8221;, &#8220;#navbar li&#8221;, and &#8220;#navbar li a&#8221;. It&#8217;s a pain to repeat the beginning over and over again, especially when it gets long.</p>
+        
+        <p>Sass allows you to avoid this by nesting the child selectors within the parent selector.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;#navbar {&#x000A;  width: 80%;&#x000A;  height: 23px;&#x000A;&#x000A;  ul { list-style-type: none; }&#x000A;  li {&#x000A;    float: left;&#x000A;    a { font-weight: bold; }&#x000A;  }&#x000A;}&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;#navbar {&#x000A;  width: 80%;&#x000A;  height: 23px; }&#x000A;  #navbar ul {&#x000A;    list-style-type: none; }&#x000A;  #navbar li {&#x000A;    float: left; }&#x000A;    #navbar li a {&#x000A;      font-weight: bold; }&#x000A;</pre>
+        </div>
+        <p>Notice how the output is formatted to reflect the original nesting of the selectors. This is the default CSS style, but there are <a href='/docs/yardoc/file.SASS_REFERENCE.html#output_style'>other styles</a> for all sorts of CSS formatting preferences. There&#8217;s even one for compressing the CSS as much as possible!</p>
+        
+        <p>You can also nest properties, so you don&#8217;t have to repeat stuff like &#8220;<code>border-left-</code>&#8221; all the time.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;.fakeshadow {&#x000A;  border: {&#x000A;    style: solid;&#x000A;    left: {&#x000A;      width: 4px;&#x000A;      color: #888;&#x000A;    }&#x000A;    right: {&#x000A;      width: 2px;&#x000A;      color: #ccc;&#x000A;    }&#x000A;  }&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;.fakeshadow {&#x000A;  border-style: solid;&#x000A;  border-left-width: 4px;&#x000A;  border-left-color: #888;&#x000A;  border-right-width: 2px;&#x000A;  border-right-color: #ccc; }&#x000A;</pre>
+        </div>
+        <h3 id='parent_references'>Parent References</h3>
+        
+        <p>What about pseudoclasses, like <code>:hover</code>? There isn&#8217;t a space between them and their parent selector, but it&#8217;s still possible to nest them. You just need to use the Sass special character <code>&amp;</code>. In a selector, <code>&amp;</code> will be replaced verbatim with the parent selector.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;a {&#x000A;  color: #ce4dd6;&#x000A;  &:hover { color: #ffb3ff; }&#x000A;  &:visited { color: #c458cb; }&#x000A;}&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;a {&#x000A;  color: #ce4dd6; }&#x000A;  a:hover {&#x000A;    color: #ffb3ff; }&#x000A;  a:visited {&#x000A;    color: #c458cb; }&#x000A;</pre>
+        </div>
+        <h2 id='variables'>Variables</h2>
+        
+        <p>Sass allows you to declare variables that can be used throughout your stylesheet. Variables begin with <code>$</code> and are declared just like properties. They can have any value that&#8217;s allowed for a CSS property, such as colors, numbers (with units), or text.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;$main-color: #ce4dd6;&#x000A;$style: solid;&#x000A;&#x000A;#navbar {&#x000A;  border-bottom: {&#x000A;    color: $main-color;&#x000A;    style: $style;&#x000A;  }&#x000A;}&#x000A;&#x000A;a {&#x000A;  color: $main-color;&#x000A;  &:hover { border-bottom: $style 1px; }&#x000A;}&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;#navbar {&#x000A;  border-bottom-color: #ce4dd6;&#x000A;  border-bottom-style: solid; }&#x000A;&#x000A;a {&#x000A;  color: #ce4dd6; }&#x000A;  a:hover {&#x000A;    border-bottom: solid 1px; }&#x000A;</pre>
+        </div>
+        <p>Variables allow you to re-use colors, sizes, and other values without repeating yourself. This means that changes that should be small, such as tweaking the coloring or the sizing, can be done in one place, not all over the stylesheet.</p>
+        
+        <h3 id='operations_and_functions'>Operations and Functions</h3>
+        
+        <p>In addition to just using variable values as they&#8217;re defined, you can also modify and combine them using math and useful predefined functions. This allows you to compute element sizing and even coloration dynamically.</p>
+        
+        <p>The standard math operations (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>%</code>) are supported for numbers, even those with units. For colors, there are all sorts of useful functions for changing the <a href='/docs/yardoc/Sass/Script/Functions.html#lighten-instance_method'>lightness</a>, <a href='/docs/yardoc/Sass/Script/Functions.html#adjust_hue-instance_method'>hue</a>, <a href='/docs/yardoc/Sass/Script/Functions.html#saturate-instance_method'>saturation</a>, and <a href='/docs/yardoc/Sass/Script/Functions.html'>more</a>.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;#navbar {&#x000A;  $navbar-width: 800px;&#x000A;  $items: 5;&#x000A;  $navbar-color: #ce4dd6;&#x000A;&#x000A;  width: $navbar-width;&#x000A;  border-bottom: 2px solid $navbar-color;&#x000A;&#x000A;  li {&#x000A;    float: left;&#x000A;    width: $navbar-width/$items - 10px;&#x000A;&#x000A;    background-color:&#x000A;      lighten($navbar-color, 20%);&#x000A;    &:hover {&#x000A;      background-color:&#x000A;        lighten($navbar-color, 10%);&#x000A;    }&#x000A;  }&#x000A;}&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;#navbar {&#x000A;  width: 800px;&#x000A;  border-bottom: 2px solid #ce4dd6; }&#x000A;  #navbar li {&#x000A;    float: left;&#x000A;    width: 150px;&#x000A;    background-color: #e5a0e9; }&#x000A;    #navbar li:hover {&#x000A;      background-color: #d976e0; }&#x000A;</pre>
+        </div>
+        <h3 id='interpolation'>Interpolation</h3>
+        
+        <p>Variables can be used for more than just property values. You can use <code>#{}</code> to insert them into property names or selectors.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;$side: top;&#x000A;$radius: 10px;&#x000A;&#x000A;.rounded- {&#x000A;  border-#{$side}-radius: $radius;&#x000A;  -moz-border-radius-#{$side}: $radius;&#x000A;  -webkit-border-#{$side}-radius: $radius;&#x000A;}&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;.rounded-top {&#x000A;  border-top-radius: 10px;&#x000A;  -moz-border-radius-top: 10px;&#x000A;  -webkit-border-top-radius: 10px; }&#x000A;</pre>
+        </div>
+        <h2 id='mixins'>Mixins</h2>
+        
+        <p>Mixins are one of the most powerful Sass features. They allow re-use of styles &#8211; properties or even selectors &#8211; without having to copy and paste them or move them into a non-semantic class.</p>
+        
+        <p>Mixins are defined using the &#8220;<code>@mixin</code>&#8221; directive, which takes a block of styles that can then be included in another selector using the &#8220;<code>@include</code>&#8221; directive.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;@mixin rounded-top {&#x000A;  $side: top;&#x000A;  $radius: 10px;&#x000A;&#x000A;  border-#{$side}-radius: $radius;&#x000A;  -moz-border-radius-#{$side}: $radius;&#x000A;  -webkit-border-#{$side}-radius: $radius;&#x000A;}&#x000A;&#x000A;#navbar li { @include rounded-top; }&#x000A;#footer { @include rounded-top; }&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;#navbar li {&#x000A;  border-top-radius: 10px;&#x000A;  -moz-border-radius-top: 10px;&#x000A;  -webkit-border-top-radius: 10px; }&#x000A;&#x000A;#footer {&#x000A;  border-top-radius: 10px;&#x000A;  -moz-border-radius-top: 10px;&#x000A;  -webkit-border-top-radius: 10px; }&#x000A;</pre>
+        </div>
+        <h3 id='arguments'>Arguments</h3>
+        
+        <p>The real power of mixins comes when you pass them arguments. Arguments are declared as a parenthesized, comma-separated list of variables. Each of those variables is assigned a value each time the mixin is used.</p>
+        
+        <p>Mixin arguments can also be given default values just like you&#8217;d declare them normally. Then the user of the mixin can choose not to pass that argument and it will be assigned the default value.</p>
+        <div class='compare'>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;@mixin rounded($side, $radius: 10px) {&#x000A;  border-#{$side}-radius: $radius;&#x000A;  -moz-border-radius-#{$side}: $radius;&#x000A;  -webkit-border-#{$side}-radius: $radius;&#x000A;}&#x000A;&#x000A;#navbar li { @include rounded(top); }&#x000A;#footer { @include rounded(top, 5px); }&#x000A;#sidebar { @include rounded(left, 8px); }&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;#navbar li {&#x000A;  border-top-radius: 10px;&#x000A;  -moz-border-radius-top: 10px;&#x000A;  -webkit-border-top-radius: 10px; }&#x000A;&#x000A;#footer {&#x000A;  border-top-radius: 5px;&#x000A;  -moz-border-radius-top: 5px;&#x000A;  -webkit-border-top-radius: 5px; }&#x000A;&#x000A;#sidebar {&#x000A;  border-left-radius: 8px;&#x000A;  -moz-border-radius-left: 8px;&#x000A;  -webkit-border-left-radius: 8px; }&#x000A;</pre>
+        </div>
+        <h2 id='id1'><code>@import</code></h2>
+        
+        <p>Stylesheets can get pretty big. CSS has an <code>@import</code> directive that allows you to break your styles up into multiple stylesheets, but each stylesheet takes a separate (slow) HTTP request. That&#8217;s why Sass&#8217;s <code>@import</code> directive pulls in the stylesheets directly. Not only that, but any variables or mixins defined in <code>@import</code>ed files are available to the files that import them.</p>
+        
+        <p>Sass has a naming convention for files that are meant to be imported (called &#8220;partials&#8221;): they begin with an underscore. Let&#8217;s create a partial called <strong><code>_rounded.scss</code></strong> to hold our <code>rounded</code> mixin.</p>
+        
+        <p>In order to support both <code>.scss</code> and <code>.sass</code> files, Sass allows files to be imported without specifying a file extension. That means we can just import <code>&quot;rounded&quot;</code>, rather than <code>&quot;rounded.scss&quot;</code>.</p>
+        <div class='compare'>
+          <pre class='sass'>/* _rounded.scss */&#x000A;&#x000A;@mixin rounded($side, $radius: 10px) {&#x000A;  border-#{$side}-radius: $radius;&#x000A;  -moz-border-radius-#{$side}: $radius;&#x000A;  -webkit-border-#{$side}-radius: $radius;&#x000A;}&#x000A;</pre>
+          <pre class='css'>/* style.css */&#x000A;&#x000A;#navbar li {&#x000A;  border-top-radius: 10px;&#x000A;  -moz-border-radius-top: 10px;&#x000A;  -webkit-border-top-radius: 10px; }&#x000A;&#x000A;#footer {&#x000A;  border-top-radius: 5px;&#x000A;  -moz-border-radius-top: 5px;&#x000A;  -webkit-border-top-radius: 5px; }&#x000A;&#x000A;#sidebar {&#x000A;  border-left-radius: 8px;&#x000A;  -moz-border-radius-left: 8px;&#x000A;  -webkit-border-left-radius: 8px; }&#x000A;</pre>
+          <pre class='sass'>/* style.scss */&#x000A;&#x000A;@import "rounded";&#x000A;&#x000A;#navbar li { @include rounded(top); }&#x000A;#footer { @include rounded(top, 5px); }&#x000A;#sidebar { @include rounded(left, 8px); }&#x000A;</pre>
+        </div>

@@ -6,16 +6,23 @@
     = f.text_field :slug, :class => 'textbox', :maxlength => 255, :id => 'sheet_page_slug'
     %span.hint= %{#{t('path')}: #{@root.url}<span id="this_slug">#{model.slug}</span>}
   - f.fields_for :parts do |p|
-    %p
-      %span.reference_links
-        %span{:id => "tag_reference_link_body"}
-          = link_to_function t('available_tags'), "loadTagReference('body');"
     %div
       = p.hidden_field :name, :value => 'body' if model.new_record?
       = p.text_area :content, :class => 'textarea large', :style => 'width: 100%'
+    %p
+      - unless SheetsExtension.javascript_filters.blank?
+        = p.label :filter_id, t('filter'), :for => 'sheet_filter_id'
+        = p.select :filter_id, javascript_filter_options_for_select(p.object.filter_id), {}, :id => 'sheet_filter_id'
+      %span.reference_links
+        = t('reference')
+        - unless SheetsExtension.javascript_filters.blank?
+          %span{:id => "filter_reference_link_body"}
+            = link_to_function t('filter'), "loadFilterReference();"
+        %span{:id => "tag_reference_link_body"}
+          = link_to_function t('available_tags'), "loadTagReference('body');"
   %p.buttons{:style=>"clear: left"}
     = save_model_button(model)
     = save_model_and_continue_editing_button(model)
     = t('or')
     = link_to t('cancel'), admin_scripts_url
-= render 'admin/sheets/watch_slug'
+= render 'admin/sheets/edit_scripts'
