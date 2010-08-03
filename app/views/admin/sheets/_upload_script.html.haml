@@ -12,7 +12,7 @@
         this.hide();
       },
       'input[type=file]:change': function(){
-        this.up('form').down('input[type=submit]').show();
+        this.up('form').highlight().down('input[type=submit]').show();
       }
     });
 - content_for :page_css do
