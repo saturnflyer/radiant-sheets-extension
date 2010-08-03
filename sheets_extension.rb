@@ -43,12 +43,7 @@ class SheetsExtension < Radiant::Extension
       def sheet?
         false
       end
-      
-      def allowed_children
-        sheets = [JavascriptPage, StylesheetPage]
-        [default_child, *Page.descendants.sort_by(&:name)] - sheets
-      end
-      
+
       include JavascriptTags
       include StylesheetTags
     end
@@ -70,12 +65,5 @@ class SheetsExtension < Radiant::Extension
       alias_method_chain :set_cache_control, :sheets
     end
     
-    Admin::PageTypesController.class_eval do
-      private
-      def page_types_with_sheet_restrictions
-        Page.descendants.sort_by(&:name).delete_if{|t| t.name =~ /Stylesheet|Javascript/ }
-      end
-      alias_method_chain :page_types, :sheet_restrictions
-    end rescue nil # in the case that the page_types extension is not loaded
   end
 end
