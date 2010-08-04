@@ -6,7 +6,6 @@
     })
     Event.addBehavior({
       'a.replace:click': function(){
-        debugger
         var ref = this.readAttribute('href').sub(/\#/,'')
         $(ref).show();
         this.hide();
