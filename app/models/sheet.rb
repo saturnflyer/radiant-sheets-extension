@@ -4,9 +4,10 @@ module Sheet
       base.class_eval {
         before_validation :set_title
         before_validation :set_breadcrumb
+        before_validation :set_published
         
         def self.root
-          root = self.first(:order => 'id')
+          self.first(:order => 'id')
         end
 
         def self.default_page_parts
@@ -78,6 +79,11 @@ module Sheet
   
     def set_breadcrumb
       self.breadcrumb = self.slug
+    end
+    
+    def set_published
+      self.published_at = Time.now
+      self.status_id = Status[:published].id
     end
   end
 end
