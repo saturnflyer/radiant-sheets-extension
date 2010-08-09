@@ -53,4 +53,28 @@ describe JavascriptPage do
       j.breadcrumb.should == 'site.js'
     end
   end
+  
+  context 'when saving a new page' do
+    subject { s = JavascriptPage.new_with_defaults
+        s.slug = 'test.js'
+        s.save!
+        s }
+    its(:status){ should == Status[:published] }
+    its(:status_id){ should == Status[:published].id }
+    
+    its(:published_at){ should_not be_nil }
+    it "should have a published_at greater than or equal to the current time" do
+      subject.published_at.to_i.should <= Time.zone.now.to_i
+    end
+    
+    context 'with the default page status set to draft' do
+      it 'should save a new page with a published status' do
+        Radiant::Config['defaults.page.status'] = 'draft'
+        new_sheet = JavascriptPage.new_with_defaults
+        new_sheet.slug = 'published.js'
+        new_sheet.save!
+        new_sheet.status.should == Status[:published]
+      end
+    end
+  end
 end
