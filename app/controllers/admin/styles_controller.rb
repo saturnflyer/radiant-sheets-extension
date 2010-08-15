@@ -7,7 +7,7 @@ class Admin::StylesController < Admin::ResourceController
     :denied_message => 'You must have developer or administrator privileges to edit stylesheets.'
   
   prepend_before_filter :find_root
-  prepend_before_filter :create_root, :only => :new
+  prepend_before_filter :create_root, :only => [:new, :upload]
   
   def upload
     if params[:upload].blank?  # necessary params are missing
@@ -47,7 +47,12 @@ class Admin::StylesController < Admin::ResourceController
   def create_root
     unless @root
       j = StylesheetPage.new_with_defaults
-      j.parent_id = Page.find_by_slug('/').try(:id)
+      begin
+        j.parent_id = Page.find_by_slug('/').id
+      rescue
+        flash[:error] = 'You must first create a homepage before you may create a stylesheet.'
+        redirect_to welcome_path and return false
+      end
       j.slug = 'css'
       j.save
     end
