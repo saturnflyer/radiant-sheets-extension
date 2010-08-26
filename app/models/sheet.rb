@@ -5,9 +5,10 @@ module Sheet
         before_validation :set_title
         before_validation :set_breadcrumb
         before_validation :set_published
+        class_inheritable_accessor :sheet_root
         
         def self.root
-          self.first(:order => 'id')
+          sheet_root ||= Page.find_by_url('/').children.first(:conditions => {:class_name => self.to_s})
         end
 
         def self.default_page_parts
