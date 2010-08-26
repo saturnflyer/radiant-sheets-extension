@@ -2,18 +2,18 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe StylesheetPage do
   dataset :stylesheets
-  let(:stylesheet){ pages(:css) }
-  let(:site_css){ StylesheetPage.find_by_slug('site.css') }
+  let(:css){ pages(:css) }
+  let(:site_css){ pages(:site_css) }
   
-  subject{ stylesheet }
+  subject{ css }
   its(:cache?) { should be_true }
   its(:sheet?) { should be_true }
   its(:virtual?) { should be_true }
   its(:layout) { should be_nil }
   
   describe '.root' do
-    subject{ StylesheetPage }
-    its(:root) { should == stylesheet }
+    subject{ StylesheetPage.root }
+    it { should == css }
   end
   
   describe '.new_with_defaults' do
@@ -29,14 +29,14 @@ describe StylesheetPage do
   
   describe '#headers' do
     it "should have a 'Content-Type' of 'text/css'" do
-      stylesheet.headers['Content-Type'].should == 'text/css'
+      css.headers['Content-Type'].should == 'text/css'
     end
   end
   
   describe '#find_by_url' do
     context 'with a valid url' do
       it 'should return the child found by the given slug' do
-        stylesheet.find_by_url('/css/site.css').should == site_css
+        css.find_by_url('/css/site.css').should == site_css
       end
     end
   end

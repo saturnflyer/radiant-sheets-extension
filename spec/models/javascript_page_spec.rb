@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe JavascriptPage do
   dataset :javascripts
   let(:javascript){ pages(:js) }
-  let(:site_js){ JavascriptPage.find_by_slug('site.js') }
+  let(:site_js){ pages(:site_js) }
   
   subject{ javascript }
   its(:cache?) { should be_true }
