@@ -48,14 +48,14 @@ The above example will produce the following:
       when 'url'
         url
       when 'inline'
-        %{<style type="#{mime_type}"#{optional_attributes}>\n/*<![CDATA[*/\n#{stylesheet.part('body').content}\n/*]]>*/\n</style>}
+        %{<style type="#{mime_type}"#{optional_attributes}>\n/*<![CDATA[*/\n#{stylesheet.render_part('body')}\n/*]]>*/\n</style>}
       when 'link'
         %{<link rel="#{rel}" type="#{mime_type}" href="#{url}"#{optional_attributes} />}
       else
-        stylesheet.part('body').content
+        stylesheet.render_part('body')
       end
     else
-      raise TagError.new("stylesheet not found")
+      raise TagError.new("stylesheet #{slug} not found")
     end
   end
 end

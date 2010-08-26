@@ -45,14 +45,14 @@ The above example will produce the following:
       when 'url'
         url
       when 'inline'
-        %{<script type="#{mime_type}"#{optional_attributes}>\n//<![CDATA[\n#{javascript.part('body').content}\n//]]>\n</script>}
+        %{<script type="#{mime_type}"#{optional_attributes}>\n//<![CDATA[\n#{javascript.render_part('body')}\n//]]>\n</script>}
       when 'link'
         %{<script type="#{mime_type}" src="#{url}"#{optional_attributes}></script>}
       else
-        javascript.part('body').content
+        javascript.render_part('body')
       end
     else
-      raise TagError.new("javascript not found")
+      raise TagError.new("javascript #{slug} not found")
     end
   end
 end

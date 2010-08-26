@@ -1,16 +1,10 @@
 class JavascriptsDataset < Dataset::Base
-  uses :pages
+  uses :home_page
   
   def load
-    create_javascript "js" do
-      create_javascript "site.js"
+    create_page 'js', :slug => 'js', :class_name => 'JavascriptPage', :parent_id => pages(:home).id do
+      create_page 'site.js', :slug => 'site.js', :class_name => 'JavascriptPage'
     end
   end
   
-  helpers do
-    def create_javascript(name, attributes={}, &block)    
-      attributes = page_params(attributes.reverse_merge(:title => name, :slug => name, :class_name => 'JavascriptPage'))
-      create_page(name, attributes, &block)
-    end
-  end
 end

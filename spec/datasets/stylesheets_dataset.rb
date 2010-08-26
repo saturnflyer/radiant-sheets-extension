@@ -1,16 +1,15 @@
 class StylesheetsDataset < Dataset::Base
-  uses :pages
+  uses :home_page
   
   def load
-    create_stylesheet "css" do
-      create_stylesheet "site.css"
+    create_page "css", :slug => 'css', :class_name => 'StylesheetPage' do
+      create_page "site.css", :slug => 'site.css', :class_name => 'StylesheetPage'
+      create_page "sassy.sass", :slug => 'sassy.sass', :class_name => 'StylesheetPage' do
+        create_page_part 'sass_body', :name => 'body', :content => 'header
+  background: red', :filter_id => 'Sass'
+      end
+      create_page "container.css", :body => '<r:stylesheet slug="sassy.css" />', :class_name => 'StylesheetPage'
     end
   end
   
-  helpers do
-    def create_stylesheet(name, attributes={}, &block)    
-      attributes = page_params(attributes.reverse_merge(:title => name, :slug => name, :class_name => 'StylesheetPage'))
-      create_page(name, attributes, &block)
-    end
-  end
 end

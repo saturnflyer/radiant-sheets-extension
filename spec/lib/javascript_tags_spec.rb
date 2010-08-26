@@ -5,12 +5,12 @@ describe "Javascript Tags" do
   dataset :javascripts
 
   let(:page){ pages(:home) }
+    let(:javascript_page){ pages(:site_js)}
 
   describe "<r:javascript>" do
-    let(:javascript_page){ JavascriptPage.find_by_slug('site.js')}
     subject { page }
     it { should render(%{<r:javascript />}).with_error("`javascript' tag must contain a `slug' attribute.") }
-    it { should render(%{<r:javascript slug="bogus" />}).with_error("javascript not found") }
+    it { should render(%{<r:javascript slug="bogus" />}).with_error("javascript bogus not found") }
     it { should render(%{<r:javascript slug="site.js" />}).as("site.js body.") }
     it { should render(%{<r:javascript slug="site.js" as="url" />}).as("/js/site.js?#{javascript_page.updated_at.to_i}") }
     it { should render(%{<r:javascript slug="site.js" as="link" />}).as(%{<script type="#{javascript_page.headers['Content-Type']}" src="#{javascript_page.url.gsub(/\/$/,'')}?#{javascript_page.updated_at.to_i.to_s}"></script>}) }

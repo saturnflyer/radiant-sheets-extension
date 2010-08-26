@@ -7,16 +7,16 @@ describe "Stylesheet Tags" do
   let(:page){ pages(:home) }
 
   describe "<r:stylesheet>" do
-    let(:stylesheet_page){ StylesheetPage.find_by_slug('site.css')}
+    let(:site_css){pages(:site_css)}
     subject { page }
     it { should render(%{<r:stylesheet />}).with_error("`stylesheet' tag must contain a `slug' attribute.") }
-    it { should render(%{<r:stylesheet slug="bogus" />}).with_error("stylesheet not found") }
+    it { should render(%{<r:stylesheet slug="bogus" />}).with_error("stylesheet bogus not found") }
     it { should render(%{<r:stylesheet slug="site.css" />}).as("site.css body.") }
-    it { should render(%{<r:stylesheet slug="site.css" as="url" />}).as("/css/site.css?#{stylesheet_page.updated_at.to_i}") }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{stylesheet_page.updated_at.to_i.to_s}" />}) }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" type="special/type" />}).as(%{<link rel="stylesheet" type="special/type" href="/css/site.css?#{stylesheet_page.updated_at.to_i.to_s}" />}) }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" something="custom" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{stylesheet_page.updated_at.to_i.to_s}" something="custom" />}) }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" rel="alternate" />}).as(%{<link rel="alternate" type="text/css" href="/css/site.css?#{stylesheet_page.updated_at.to_i.to_s}" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="url" />}).as("/css/site.css?#{site_css.updated_at.to_i}") }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" type="special/type" />}).as(%{<link rel="stylesheet" type="special/type" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" something="custom" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" something="custom" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" rel="alternate" />}).as(%{<link rel="alternate" type="text/css" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" />}) }
     it { should render(%{<r:stylesheet slug="site.css" as="inline" />}).as(%{<style type="text/css">
 /*<![CDATA[*/
 site.css body.
@@ -32,6 +32,11 @@ site.css body.
 site.css body.
 /*]]>*/
 </style>}) }
+    it "should apply text filters when outputing content" do
+      site_css.should render(%{<r:stylesheet slug="sassy.sass" />}).as(%{header {
+  background: red; }
+})
+    end
   end
 
 end
