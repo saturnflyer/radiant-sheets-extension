@@ -11,7 +11,7 @@ class Admin::SheetResourceController < Admin::ResourceController
     else
       @sheet = model_class.create_from_upload(params[:upload][:upload])
       if @sheet.valid?
-        redirect_to index_page_for_model
+        response_for :singular
       else
         flash[:error] = "There was an error. #{@sheet.errors.full_messages}"
         redirect_to index_page_for_model

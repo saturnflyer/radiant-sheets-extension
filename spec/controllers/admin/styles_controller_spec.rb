@@ -64,7 +64,7 @@ describe Admin::StylesController do
   end
 
   {:get => [:index, :show, :new, :edit],
-   :post => [:create],
+   :post => [:create, :upload],
    :put => [:update],
    :delete => [:destroy]}.each do |method, actions|
     actions.each do |action|
