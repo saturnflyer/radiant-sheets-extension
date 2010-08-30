@@ -9,13 +9,8 @@ class Admin::SheetResourceController < Admin::ResourceController
     if params[:upload].blank?  # necessary params are missing
       render :text => '', :status => :bad_request
     else
-      @sheet = model_class.create_from_upload(params[:upload][:upload])
-      if @sheet.valid?
-        response_for :singular
-      else
-        flash[:error] = "There was an error. #{@sheet.errors.full_messages}"
-        redirect_to index_page_for_model
-      end
+      @sheet = model_class.create_from_upload!(params[:upload][:upload])
+      response_for :create
     end
   end
   

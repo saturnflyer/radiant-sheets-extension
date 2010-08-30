@@ -29,6 +29,18 @@ describe Admin::StylesController do
       response.body.should == stylesheet.to_xml
     end
   end
+  
+  describe "upload" do
+    it "should respond with a bad request header if given no upload" do
+      post :upload
+      response.code.should == "400"
+    end
+    it "should redirect to the index action" do
+      pending "stub upload"
+      # post :upload, :upload => 
+      # response.should redirect_to(admin_styles_path)
+    end
+  end
 
   describe "with invalid stylesheet id" do
     before do

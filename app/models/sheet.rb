@@ -15,10 +15,10 @@ module Sheet
           PagePart.new(:name => 'body')
         end
         
-        def self.create_from_upload(file)
+        def self.create_from_upload!(file)
           @sheet = self.new_with_defaults
           @sheet.upload = file
-          @sheet.save
+          @sheet.save!
           @sheet
         end
         
