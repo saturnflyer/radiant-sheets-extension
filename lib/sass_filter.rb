@@ -3,7 +3,7 @@ class SassFilter < TextFilter
 
   def filter(text)
     begin
-      Sass::Engine.new(text, {}).render
+      Sass::Engine.new(text, Compass.sass_engine_options || {}).render
     rescue Sass::SyntaxError
       "Syntax Error at line #{$!.sass_line}: " + $!.to_s
     end
