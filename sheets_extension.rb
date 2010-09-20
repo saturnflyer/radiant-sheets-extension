@@ -21,15 +21,6 @@ class SheetsExtension < Radiant::Extension
       add_item "Javascripts", "/admin/scripts"
     end
     
-    Admin::NodeHelper.module_eval do
-      def render_node_with_sheets(page, locals = {})
-        unless page.sheet?
-          render_node_without_sheets(page, locals)
-        end
-      end
-      alias_method_chain :render_node, :sheets
-    end
-    
     ApplicationHelper.module_eval do
       def filter_options_for_select_with_sheet_restrictions(selected=nil)
         sheet_filters = SheetsExtension.stylesheet_filters + SheetsExtension.javascript_filters
@@ -46,6 +37,15 @@ class SheetsExtension < Radiant::Extension
 
       include JavascriptTags
       include StylesheetTags
+    end
+    
+    Admin::NodeHelper.module_eval do
+      def render_node_with_sheets(page, locals = {})
+        unless page.sheet?
+          render_node_without_sheets(page, locals)
+        end
+      end
+      alias_method_chain :render_node, :sheets
     end
     
     SiteController.class_eval do
