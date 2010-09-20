@@ -33,9 +33,8 @@ site.css body.
 /*]]>*/
 </style>}) }
     it "should apply text filters when outputing content" do
-      site_css.should render(%{<r:stylesheet slug="sassy.sass" />}).as(%{header {
-  background: red; }
-})
+      css_result_from_sass = Sass::Engine.new(pages(:sassy_sass).part('body').content, Compass.sass_engine_options || {}).render
+      site_css.should render(%{<r:stylesheet slug="sassy.sass" />}).as(css_result_from_sass)
     end
   end
 
