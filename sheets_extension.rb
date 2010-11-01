@@ -31,6 +31,15 @@ class SheetsExtension < Radiant::Extension
     end
     
     Page.class_eval do
+      
+      class_inheritable_accessor :in_menu
+      self.in_menu = true
+      
+      class << self
+        alias_method :in_menu?, :in_menu
+        alias_method :in_menu, :in_menu=
+      end
+      
       def sheet?
         false
       end

@@ -1,3 +1,5 @@
+require 'compass'
+
 class SassFilter < TextFilter
   description_file File.dirname(__FILE__) + "/../sass.html"
 
