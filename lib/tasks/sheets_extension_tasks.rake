@@ -50,6 +50,28 @@ namespace :radiant do
           TranslationSupport.write_file(filename, basename, comments, other)
         end
       end
+
+      namespace :import do
+        desc "Creates new sheets pages from old SNS text_assets"
+        task :sns => :environment do
+          class TextAsset < ActiveRecord::Base
+            belongs_to :created_by, :class_name => 'User'
+            belongs_to :updated_by, :class_name => 'User'
+          end
+          TextAsset.all.each do |ta| 
+            klass = (ta.class_name == 'Stylesheet') ? StylesheetPage : JavascriptPage
+            p "Importing #{klass} #{ta.name}"
+            sheet = klass.new_with_defaults
+            sheet.part('body').content = ta.content
+            sheet.part('body').filter_id = ta.filter_id
+            sheet.title = sheet.slug = sheet.breadcrumb = ta.name
+            [:created_by, :updated_by, :created_at, :updated_at].each do |col|
+              sheet.send("#{col}=".to_sym, ta.send(col))
+            end
+            sheet.save!
+          end
+        end
+      end
     end
   end
 end
