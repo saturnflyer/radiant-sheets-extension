@@ -8,7 +8,7 @@ module Sheet
         class_inheritable_accessor :sheet_root
         
         def self.root
-          sheet_root ||= Page.find_by_url('/').children.first(:conditions => {:class_name => self.to_s})
+          sheet_root ||= Page.find_by_path('/').children.first(:conditions => {:class_name => self.to_s})
         end
 
         def self.default_page_parts
