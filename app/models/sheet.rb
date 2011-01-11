@@ -29,11 +29,6 @@ module Sheet
       true
     end
   
-    # stub to check type
-    def sheet?
-      true
-    end
-  
     # so that it is ignored when finding children in radius tags
     def virtual?
       true
