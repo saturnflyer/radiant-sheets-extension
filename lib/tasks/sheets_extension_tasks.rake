@@ -59,14 +59,16 @@ namespace :radiant do
             belongs_to :updated_by, :class_name => 'User'
           end
           TextAsset.all.each do |ta| 
-            klass = (ta.class_name == 'Stylesheet') ? StylesheetPage : JavascriptPage
+            klass = (ta.class_name + 'Page').constantize
             p "Importing #{klass} #{ta.name}"
             sheet = klass.new_with_defaults
             sheet.part('body').content = ta.content
             sheet.part('body').filter_id = ta.filter_id
-            sheet.title = sheet.slug = sheet.breadcrumb = ta.name
-            [:created_by, :updated_by, :created_at, :updated_at].each do |col|
-              sheet.send("#{col}=".to_sym, ta.send(col))
+            sheet.slug = ta.name
+            ta.attributes.each do |attribute, value|
+              if !attribute.match(/^(lock_version|id|content|filter_id|name|class_name)$/) && sheet.respond_to?("#{attribute}=")
+                sheet.send("#{attribute}=", value)
+              end
             end
             sheet.save!
           end
