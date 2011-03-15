@@ -33,10 +33,10 @@ describe StylesheetPage do
     end
   end
   
-  describe '#find_by_url' do
+  describe '#find_by_path' do
     context 'with a valid url' do
       it 'should return the child found by the given slug' do
-        css.find_by_url('/css/site.css').should == site_css
+        css.find_by_path('/css/site.css').should == site_css
       end
     end
   end

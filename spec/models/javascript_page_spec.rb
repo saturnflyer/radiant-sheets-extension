@@ -33,10 +33,10 @@ describe JavascriptPage do
     end
   end
   
-  describe '#find_by_url' do
+  describe '#find_by_path' do
     context 'with a valid url' do
       it 'should return the child found by the given slug' do
-        javascript.find_by_url('/js/site.js').should == site_js
+        javascript.find_by_path('/js/site.js').should == site_js
       end
     end
   end
