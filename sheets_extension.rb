@@ -5,9 +5,10 @@ begin
 rescue
   # Running on edge, compass already exists
 end
+require 'radiant-sheets-extension/version'
 
 class SheetsExtension < Radiant::Extension
-  version "1.0"
+  version RadiantSheetsExtension::VERSION
   description "Manage CSS and Javascript content in Radiant CMS as Sheets, a subset of Pages"
   url "http://github.com/radiant/radiant"
   
