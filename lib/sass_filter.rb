@@ -3,7 +3,12 @@ class SassFilter < TextFilter
 
   def filter(text)
     begin
-      Sass::Engine.new(text, Compass.sass_engine_options || {}).render
+      options = Compass.sass_engine_options || {:load_paths => []}
+      options[:load_paths].unshift "#{RADIANT_ROOT}/public/stylesheets/sass"
+      options[:load_paths].unshift "#{RAILS_ROOT}/public/stylesheets/sass"
+      # this would need some substitions (as in paperclip) to be useful
+      # options[:load_paths] += Radiant::Config['sheets.sass_template_paths'].split(',').map(&:strip) if Radiant::Config['sheets.sass_template_paths']
+      Sass::Engine.new(text, options).render
     rescue Sass::SyntaxError
       "Syntax Error at line #{$!.sass_line}: " + $!.to_s
     end
