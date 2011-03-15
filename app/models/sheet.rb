@@ -82,7 +82,7 @@ module Sheet
     end
     
     def set_published
-      self.published_at = Time.now
+      self.published_at = Time.zone.now
       self.status_id = Status[:published].id
     end
   end
