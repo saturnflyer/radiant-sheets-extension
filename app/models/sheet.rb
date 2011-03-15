@@ -38,12 +38,12 @@ module Sheet
       nil
     end
     
-    def find_by_url(url, live = true, clean = true)
-      url = clean_url(url) if clean
-      my_url = self.url
-      if (my_url == url) && (not live or published?)
+    def find_by_path(path, live = true, clean = true)
+      path = clean_path(path) if clean
+      my_path = self.path
+      if (my_path == path) && (not live or published?)
         self
-      elsif (url =~ /^#{Regexp.quote(my_url)}([^\/]*)/)
+      elsif (path =~ /^#{Regexp.quote(my_path)}([^\/]*)/)
         slug_child = children.find_by_slug($1)
         if slug_child
           return slug_child
@@ -51,6 +51,10 @@ module Sheet
           super
         end
       end
+    end
+    def find_by_url(*args)
+      ActiveSupport::Deprecation.warn("`find_by_url' has been deprecated; use `find_by_path' instead.", caller)
+      find_by_path(*args)
     end
         
     def upload=(file)

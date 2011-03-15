@@ -36,9 +36,13 @@ describe Admin::StylesController do
       response.code.should == "400"
     end
     it "should redirect to the index action" do
-      pending "stub upload"
-      # post :upload, :upload => 
-      # response.should redirect_to(admin_styles_path)
+      uploaded_file = mock(ActionController::UploadedFile).as_null_object
+      uploaded_file.stub!(:original_filename).and_return('test.doc')
+      uploaded_file.stub!(:read).and_return("Some content")
+      uploaded_file.stub!(:size).and_return(100)
+      uploaded_file.stub!(:kind_of?).with(ActionController::UploadedFile).and_return(true)
+      post :upload, :upload => {:upload => uploaded_file}
+      response.should redirect_to(admin_styles_path)
     end
   end
 
@@ -51,27 +55,24 @@ describe Admin::StylesController do
       response.should redirect_to(admin_styles_path)
     end
     it "should say that the 'StylesheetPage could not be found.' after the edit action" do
-      pending "can't find translations"
       get :edit, @parameters
-      flash[:notice].should == 'StylesheetPage could not be found.'
+      flash[:notice].should match(/could not be found/)
     end
     it 'should redirect the update action to the index action' do
       put :update, @parameters
       response.should redirect_to(admin_styles_path)
     end
     it "should say that the 'StylesheetPage could not be found.' after the update action" do
-      pending "can't find translations"
       put :update, @parameters
-      flash[:notice].should == 'StylesheetPage could not be found.'
+      flash[:notice].should match(/could not be found/)
     end
     it 'should redirect the destroy action to the index action' do
       delete :destroy, @parameters
       response.should redirect_to(admin_styles_path)
     end
     it "should say that the 'StylesheetPage could not be found.' after the destroy action" do
-      pending "can't find translations"
       delete :destroy, @parameters
-      flash[:notice].should == 'StylesheetPage could not be found.'
+      flash[:notice].should match(/could not be found/)
     end
   end
 
