@@ -5,7 +5,7 @@ class SassFilter < TextFilter
     begin
       options = Compass.sass_engine_options || {:load_paths => []}
       options[:load_paths].unshift "#{RADIANT_ROOT}/public/stylesheets/sass"
-      options[:load_paths].unshift "#{RAILS_ROOT}/public/stylesheets/sass"
+      options[:load_paths].unshift "#{Rails.root}/public/stylesheets/sass"
       # this would need some substitions (as in paperclip) to be useful
       # options[:load_paths] += Radiant::Config['sheets.sass_template_paths'].split(',').map(&:strip) if Radiant::Config['sheets.sass_template_paths']
       Sass::Engine.new(text, options).render
