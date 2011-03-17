@@ -33,6 +33,9 @@ class Admin::SheetResourceController < Admin::ResourceController
   
   def find_root
     @root = model_class.root
+  rescue Page::MissingRootPageError => e
+    flash[:error] = t('sheets.root_required', :model => humanized_model_name)
+    redirect_to welcome_path and return false
   end
   
   def create_root
@@ -40,8 +43,8 @@ class Admin::SheetResourceController < Admin::ResourceController
       s = model_class.new_with_defaults
       begin
         s.parent_id = Page.find_by_slug('/').id
-      rescue
-        flash[:error] = "You must first create a homepage before you may create a #{humanized_model_name}."
+      rescue Page::MissingRootPageError
+        flash[:error] = t('sheets.root_required', :model => humanized_model_name)
         redirect_to welcome_path and return false
       end
       s.slug = model_class == StylesheetPage ? 'css' : 'js'

@@ -7,3 +7,7 @@ en:
   path: Path
   sheets: Sheets
   upload: Upload
+  stylesheet_page: Stylesheet
+  javascript_page: Javascript
+  sheets:
+    root_required: "You must first create a homepage before you may create a %{model}."
