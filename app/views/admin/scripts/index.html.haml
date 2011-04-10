@@ -16,10 +16,10 @@
 #actions
   = pagination_for(models)
   %ul
-    %li= link_to image('plus') + " " + t("new_javascript"), new_admin_script_path
+    %li= link_to image('plus') + " " + t("new_javascript"), new_admin_script_path, :class => 'action_button'
     %li
-      = link_to t("upload"), '#uploader', :class => 'replace'
-      #uploader
+      = link_to image('upload') + ' ' + t("upload"), '#uploader', :class => 'replace action_button'
+      #uploader.action_button
         - form_for :upload, :url => upload_admin_scripts_path, :html => { :class => 'button_form', :multipart => true } do |f|
           %span
             = f.label :upload, image('upload') + ' ' + t('upload')
