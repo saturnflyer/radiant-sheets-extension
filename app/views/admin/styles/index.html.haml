@@ -26,6 +26,6 @@
       #uploader
         - form_for :upload, :url => upload_admin_styles_path, :html => { :class => 'button_form', :multipart => true } do |f|
           %span
-            = f.label :upload
+            = f.label :upload, image('upload') + ' ' + t('upload')
             = f.file_field :upload 
-            = f.submit 'Create Stylesheet'
+            = f.submit  t('create_stylesheet')

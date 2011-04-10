@@ -1,5 +1,7 @@
 ---
 en: 
+  create_javascript: Create Javascript
+  create_stylesheet: Create Stylesheet
   edit_javascript: Edit Javascript
   edit_stylesheet: Edit Stylesheet
   new_javascript: New Javascript
