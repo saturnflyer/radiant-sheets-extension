@@ -10,7 +10,9 @@
       = p.hidden_field :name, :value => 'body' if model.new_record?
       = p.text_area :content, :class => 'textarea large', :style => 'width: 100%'
     %p
-      - unless SheetsExtension.javascript_filters.blank?
+      - if SheetsExtension.javascript_filters.blank?
+        = p.hidden_field :filter_id, :value => ''
+      - else
         = p.label :filter_id, t('filter'), :for => 'sheet_filter_id'
         = p.select :filter_id, javascript_filter_options_for_select(p.object.filter_id), {}, :id => 'sheet_filter_id'
       %span.reference_links
