@@ -6,12 +6,16 @@
         %th Javascript
         %th Modify
     %tbody
-      - models.each do |javascript|
+      - unless models.blank?
+        - models.each do |javascript|
+          %tr
+            %td.name
+              = image('javascript') 
+              = link_to javascript.title, edit_admin_script_path(javascript)
+            %td.actions= link_to(image('minus') + ' ' + t('remove'), admin_script_url(javascript), :class => "action", :method => :delete, :confirm => "Is it OK to delete #{javascript.slug}?")
+      - else
         %tr
-          %td.name
-            = image('javascript') 
-            = link_to javascript.title, edit_admin_script_path(javascript)
-          %td.actions= link_to(image('minus') + ' ' + t('remove'), admin_script_url(javascript), :class => "action", :method => :delete, :confirm => "Is it OK to delete #{javascript.slug}?")
+          %td.empty{:colspan => 2}= t('no_scripts')
 
 #actions
   = pagination_for(models)
