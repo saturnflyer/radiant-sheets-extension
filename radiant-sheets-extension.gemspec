@@ -12,13 +12,18 @@ Gem::Specification.new do |s|
   s.summary     = %q{Sheets for Radiant CMS}
   s.description = %q{Manage CSS and Javascript content in Radiant CMS as Sheets, a subset of Pages.}
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  ignores = if File.exist?('.gitignore')
+    File.read('.gitignore').split("\n").inject([]) {|a,p| a + Dir[p] }
+  else
+    []
+  end
+  s.files         = Dir['**/*'] - ignores
+  s.test_files    = Dir['test/**/*','spec/**/*','features/*'] - ignores
+  # s.executables   = Dir['bin/*'] - ignores
   s.require_paths = ["lib"]
   
   s.post_install_message = %{
   Add this to your radiant project with:
-    config.gem 'radiant-sheets-extension', :version => '#{RadiantSheetsExtension::VERSION}'
+    config.gem 'radiant-sheets-extension', :version => '~>#{RadiantSheetsExtension::VERSION}'
   }
 end
