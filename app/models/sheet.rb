@@ -1,4 +1,5 @@
 module Sheet
+  module InvalidHomePage; end
   module Instance
     def self.included(base)
       base.class_eval {
@@ -9,6 +10,9 @@ module Sheet
         
         def self.root
           sheet_root ||= Page.find_by_path('/').children.first(:conditions => {:class_name => self.to_s})
+        rescue NoMethodError => e
+          e.extend Sheet::InvalidHomePage
+          raise e
         end
 
         def self.default_page_parts

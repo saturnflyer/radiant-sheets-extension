@@ -12,6 +12,6 @@ en:
   stylesheet_page: Stylesheet
   javascript_page: Javascript
   sheets:
-    root_required: "You must first create a homepage before you may create a %{model}."
+    root_required: "You must first publish a homepage before you may create a %{model}."
   no_styles: 'No Stylesheets'
   no_scripts: 'No Javascripts'

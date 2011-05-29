@@ -33,7 +33,7 @@ class Admin::SheetResourceController < Admin::ResourceController
   
   def find_root
     @root = model_class.root
-  rescue Page::MissingRootPageError => e
+  rescue Page::MissingRootPageError, Sheet::InvalidHomePage => e
     flash[:error] = t('sheets.root_required', :model => humanized_model_name)
     redirect_to welcome_path and return false
   end
