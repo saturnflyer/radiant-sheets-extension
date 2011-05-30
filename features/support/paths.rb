@@ -1,14 +1,11 @@
-def path_to(page_name)
-  case page_name
+module NavigationHelpers
   
-  when /the homepage/i
-    root_path
+  PathMatchers = {} unless defined?(PathMatchers)
+  PathMatchers.merge!({
+    /styles/i => 'admin_styles_path',
+    /scripts/i => 'admin_scripts_path'
+  })
   
-  when /login/i
-    login_path
-  # Add more page name => path mappings here
-  
-  else
-    raise "Can't find mapping from \"#{page_name}\" to a path."
-  end
 end
+
+World(NavigationHelpers)
