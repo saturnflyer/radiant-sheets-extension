@@ -21,12 +21,15 @@ require 'spec/rake/spectask'
 require 'cucumber'
 require 'cucumber/rake/task'
 
+vendored_cucumber_bin = Dir["#{Rails.root}/vendor/{gems,plugins}/cucumber*/bin/cucumber"].first
+$LOAD_PATH.unshift(File.dirname(vendored_cucumber_bin) + '/../lib') unless vendored_cucumber_bin.nil?
+
 # Cleanup the RADIANT_ROOT constant so specs will load the environment
 Object.send(:remove_const, :RADIANT_ROOT)
 
 extension_root = File.expand_path(File.dirname(__FILE__))
 
-task :default => [:spec, :features]
+task :default => [:spec, :cucumber]
 task :stats => "spec:statsetup"
 
 desc "Run all specs in spec directory"
@@ -34,8 +37,6 @@ Spec::Rake::SpecTask.new(:spec) do |t|
   t.spec_opts = ['--options', "\"#{extension_root}/spec/spec.opts\""]
   t.spec_files = FileList['spec/**/*_spec.rb']
 end
-
-task :features => 'spec:integration'
 
 namespace :spec do
   desc "Run all specs in spec directory with RCov"
@@ -61,13 +62,8 @@ namespace :spec do
   end
   
   desc "Run the Cucumber features"
-  Cucumber::Rake::Task.new(:integration) do |t|
-    t.fork = true
-    t.cucumber_opts = ['--format', (ENV['CUCUMBER_FORMAT'] || 'pretty')]
-    # t.feature_pattern = "#{extension_root}/features/**/*.feature"
-    t.profile = "default"
-  end
-
+  task :integration => 'cucumber:ok'
+  
   # Setup specs for stats
   task :statsetup do
     require 'code_statistics'
@@ -94,6 +90,30 @@ namespace :spec do
       end
     end
   end
+end
+
+namespace :cucumber do
+  Cucumber::Rake::Task.new(:ok, 'Run features that should pass') do |t|
+    t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
+    t.fork = true # You may get faster startup if you set this to false
+    t.profile = 'default'
+  end
+
+  Cucumber::Rake::Task.new(:wip, 'Run features that are being worked on') do |t|
+    t.binary = vendored_cucumber_bin
+    t.fork = true # You may get faster startup if you set this to false
+    t.profile = 'wip'
+  end
+
+  desc 'Run all features'
+  task :all => [:ok, :wip]
+end
+
+desc 'Alias for cucumber:ok'
+task :cucumber => 'cucumber:ok'
+
+task :features => :cucumber do
+  STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
 end
 
 desc 'Generate documentation for the sheets extension.'
