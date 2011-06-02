@@ -16,7 +16,7 @@ class SheetsExtension < Radiant::Extension
   cattr_accessor :javascript_filters
   
   @@stylesheet_filters ||= []
-  @@stylesheet_filters << SassFilter
+  @@stylesheet_filters += [SassFilter, ScssFilter]
   @@javascript_filters ||= []
   @@javascript_filters << CoffeeFilter
   
@@ -27,6 +27,7 @@ class SheetsExtension < Radiant::Extension
   
   def activate
     SassFilter
+    ScssFilter
     CoffeeFilter
     
     tab 'Design' do

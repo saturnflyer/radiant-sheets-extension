@@ -12,7 +12,9 @@ Feature: Managing stylesheets
     Given I am logged in as "designer"
     When I go to the "styles" admin page
     Then I should see "Stylesheets"
-    Then I should see "site.css"
+    And I should see "site.css"
+    And I should see "sassy.sass"
+    And I should see "Sass"
     And I should see "New Stylesheet"
   
   Scenario: Creating stylesheets
@@ -61,5 +63,46 @@ Feature: Managing stylesheets
       """
       body { color: red; }
       p { color: blue; }
+      """
+      
+  Scenario: Rendering Sass
+    Given I am logged in as "designer"
+    When I go to the "styles" admin page
+    And I follow "New Stylesheet"
+    And I fill in "Slug" with "sassed.css"
+    And I fill in the "Body" content with the text
+      """
+      body
+        font-size: 1em
+      """
+    And I select "Sass" from "Filter"
+    And I press "Create Stylesheet"
+    And I go to "/css/sassed.css"
+    Then the page should render
+      """
+      body{font-size:1em}
+      """
+  
+  Scenario: Rendering SCSS
+    Given I am logged in as "designer"
+    When I go to the "styles" admin page
+    And I follow "New Stylesheet"
+    And I fill in "Slug" with "sassed.css"
+    And I fill in the "Body" content with the text
+      """
+      p { 
+        a {
+          color: blue;
+          line-height: 1.9;
+        }
+        color: red;
+      }
+      """
+    And I select "SCSS" from "Filter"
+    And I press "Create Stylesheet"
+    And I go to "/css/sassed.css"
+    Then the page should render
+      """
+      p{color:red}p a{color:blue;line-height:1.9}
       """
     

@@ -6,6 +6,9 @@ class JavascriptsDataset < Dataset::Base
       create_page 'site.js', :slug => 'site.js', :class_name => 'JavascriptPage' do
         create_page_part 'site_js_body', :name => 'body', :content => 'alert("site!");'
       end
+      create_page 'coffee.js', :slug => 'coffee.js', :class_name => 'JavascriptPage' do
+        create_page_part 'coffee_js_body', :name => 'body', :content => 'alert("site!");', :filter_id => 'Coffee'
+      end
     end
   end
   

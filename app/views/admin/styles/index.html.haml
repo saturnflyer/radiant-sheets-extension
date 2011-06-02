@@ -4,6 +4,7 @@
     %thead
       %tr
         %th Stylesheet
+        %th Filter
         %th Modify
     %tbody
       - unless models.blank?
@@ -12,10 +13,11 @@
             %td.name
               = image('stylesheet') 
               = link_to stylesheet.title, edit_admin_style_path(stylesheet)
+            %td.filter= stylesheet.part('body').filter.filter_name
             %td.actions= link_to(image('minus') + ' ' + t('remove'), admin_style_url(stylesheet), :class => "action", :method => :delete, :confirm => "Is it OK to delete #{stylesheet.slug}?")
       - else
         %tr
-          %td.empty{:colspan => 2}= t('no_styles')
+          %td.empty{:colspan => 3}= t('no_styles')
 
 #actions
   = pagination_for(models)
