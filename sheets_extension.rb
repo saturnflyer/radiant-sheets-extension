@@ -18,9 +18,16 @@ class SheetsExtension < Radiant::Extension
   @@stylesheet_filters ||= []
   @@stylesheet_filters << SassFilter
   @@javascript_filters ||= []
+  @@javascript_filters << CoffeeFilter
+  
+  extension_config do |config|
+    config.gem 'coffee-script', :version => '~> 2.2.0'
+    config.gem 'sass', :version => '~> 3.1.2'
+  end
   
   def activate
     SassFilter
+    CoffeeFilter
     
     tab 'Design' do
       add_item "Stylesheets", "/admin/styles"
