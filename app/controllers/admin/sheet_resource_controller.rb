@@ -40,15 +40,12 @@ class Admin::SheetResourceController < Admin::ResourceController
   
   def create_root
     unless @root
-      s = model_class.new_with_defaults
       begin
-        s.parent_id = Page.find_by_slug('/').id
+        model_class.create_root
       rescue Page::MissingRootPageError
         flash[:error] = t('sheets.root_required', :model => humanized_model_name)
         redirect_to welcome_path and return false
       end
-      s.slug = model_class == StylesheetPage ? 'css' : 'js'
-      s.save
     end
   end
 end

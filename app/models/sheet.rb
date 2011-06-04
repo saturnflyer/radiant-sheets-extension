@@ -10,10 +10,17 @@ module Sheet
         class_inheritable_accessor :sheet_root
         
         def self.root
-          sheet_root ||= Page.find_by_path('/').children.first(:conditions => {:class_name => self.to_s})
+          Page.find_by_path('/').children.first(:conditions => {:class_name => self.to_s})
         rescue NoMethodError => e
           e.extend Sheet::InvalidHomePage
           raise e
+        end
+
+        def self.create_root
+          s = self.new_with_defaults
+          s.parent_id = Page.find_by_slug('/').id
+          s.slug = self.name == StylesheetPage ? 'css' : 'js'
+          s.save
         end
 
         def self.default_page_parts
