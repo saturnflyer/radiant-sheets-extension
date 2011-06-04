@@ -19,7 +19,7 @@ module Sheet
         def self.create_root
           s = self.new_with_defaults
           s.parent_id = Page.find_by_slug('/').id
-          s.slug = self.name == StylesheetPage ? 'css' : 'js'
+          s.slug = self.name == 'StylesheetPage' ? 'css' : 'js'
           s.save
         end
 

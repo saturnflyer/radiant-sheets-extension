@@ -46,6 +46,33 @@ Feature: Managing stylesheets
       """
       p { color: red; } /* I added this comment */
       """
+      
+  Scenario: Ensuring a homepage exists
+    Given there are no pages
+    And I am logged in as "designer"
+    When I follow "Design"
+    And I follow "Stylesheets"
+    Then I should see "You must first publish a homepage before you may create a Stylesheet"
+    And I should not see "New Stylesheet"
+    And I should see "New Homepage"
+      
+  Scenario: Creating stylesheets from scratch
+    Given there are no pages
+    And I am logged in as "designer"
+    When I follow "Design"
+    And I follow "Stylesheets"
+    Then I should see "You must first publish a homepage before you may create a Stylesheet"
+    And I follow "New Homepage"
+    And I fill in "Page Title" with "Home Page"
+    And I fill in "Slug" with "/"
+    And I fill in "Breadcrumb" with "Home"
+    And I select "Published" from "Status"
+    And I press "Create Page"
+    Then I should see "Home Page"
+    And I follow "Design"
+    And I follow "Stylesheets"
+    And I follow "New Stylesheet"
+    Then I should see "Path: /css/"
     
   Scenario: Rendering CSS
     Given I am logged in as "designer"
