@@ -9,7 +9,7 @@ as one of the following:
 
 * with no @as@ value the stylesheet's content is rendered by default.
 * @inline@ - wraps the stylesheet's content in an (X)HTML @<style>@ element.
-* @url@ - the full path to the stylesheet.
+* @path@ - the full path to the stylesheet.
 * @link@ - embeds the url in an (X)HTML @<link>@ element (creating a link to the external stylesheet).
 
 *Additional Options:*
@@ -40,17 +40,17 @@ The above example will produce the following:
     raise TagError.new("`stylesheet' tag must contain a `slug' attribute.") unless slug
     if (stylesheet = StylesheetPage.find_by_slug(slug))
       mime_type = tag.attr['type'] || stylesheet.headers['Content-Type']
-      url = stylesheet.url.sub(/\/$/,'') + '?' + stylesheet.updated_at.to_i.to_s
+      path = stylesheet.path
       rel = tag.attr.delete('rel') || 'stylesheet'
       optional_attributes = tag.attr.except('slug', 'name', 'as', 'type').inject('') { |s, (k, v)| s << %{#{k}="#{v}" } }.strip
       optional_attributes = " #{optional_attributes}" unless optional_attributes.empty?
       case tag.attr['as']
-      when 'url'
-        url
+      when 'url','path'
+        path
       when 'inline'
         %{<style type="#{mime_type}"#{optional_attributes}>\n/*<![CDATA[*/\n#{stylesheet.render_part('body')}\n/*]]>*/\n</style>}
       when 'link'
-        %{<link rel="#{rel}" type="#{mime_type}" href="#{url}"#{optional_attributes} />}
+        %{<link rel="#{rel}" type="#{mime_type}" href="#{path}"#{optional_attributes} />}
       else
         stylesheet.render_part('body')
       end

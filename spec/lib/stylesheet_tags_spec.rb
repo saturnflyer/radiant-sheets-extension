@@ -12,11 +12,11 @@ describe "Stylesheet Tags" do
     it { should render(%{<r:stylesheet />}).with_error("`stylesheet' tag must contain a `slug' attribute.") }
     it { should render(%{<r:stylesheet slug="bogus" />}).with_error("stylesheet bogus not found") }
     it { should render(%{<r:stylesheet slug="site.css" />}).as("p { color: blue; }") }
-    it { should render(%{<r:stylesheet slug="site.css" as="url" />}).as("/css/site.css?#{site_css.updated_at.to_i}") }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" />}) }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" type="special/type" />}).as(%{<link rel="stylesheet" type="special/type" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" />}) }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" something="custom" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" something="custom" />}) }
-    it { should render(%{<r:stylesheet slug="site.css" as="link" rel="alternate" />}).as(%{<link rel="alternate" type="text/css" href="/css/site.css?#{site_css.updated_at.to_i.to_s}" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="url" />}).as("/css/site.css?#{site_css.digest}") }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{site_css.digest}" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" type="special/type" />}).as(%{<link rel="stylesheet" type="special/type" href="/css/site.css?#{site_css.digest}" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" something="custom" />}).as(%{<link rel="stylesheet" type="text/css" href="/css/site.css?#{site_css.digest}" something="custom" />}) }
+    it { should render(%{<r:stylesheet slug="site.css" as="link" rel="alternate" />}).as(%{<link rel="alternate" type="text/css" href="/css/site.css?#{site_css.digest}" />}) }
     it { should render(%{<r:stylesheet slug="site.css" as="inline" />}).as(%{<style type="text/css">
 /*<![CDATA[*/
 p { color: blue; }

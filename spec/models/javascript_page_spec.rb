@@ -41,6 +41,21 @@ describe JavascriptPage do
     end
   end
   
+  describe '#digest' do
+    it 'should return an md5 hash of the rendered contents' do
+      site_js.digest.should == Digest::MD5.hexdigest(site_js.render)
+    end
+  end
+ 
+  describe '#path' do
+    it 'should include an md5 hash of the rendered contents' do
+      site_js.path.should == "/js/site.js?#{site_js.digest}"
+    end
+    it 'should not include an md5 hash of the rendered contents for the root' do
+      javascript.path.should == "/js/"
+    end
+  end
+  
   context 'when validating a new page' do
     it "should automatically set the title to the given slug" do
       j = JavascriptPage.new(:slug => 'site.js')

@@ -1,3 +1,4 @@
+require 'digest/md5'
 module Sheet
   module InvalidHomePage; end
   module Instance
@@ -74,8 +75,24 @@ module Sheet
         self.part('body').content = file.read
       end
     end
+
+    def digest
+      @generated_digest ||= digest!
+    end
+
+    def digest!
+      Digest::MD5.hexdigest(self.render)
+    end
+
+    def child_path(child)
+      clean_path(path + '/' + child.slug + '?' + child.digest)
+    end
   
     private
+
+    def clean_path(path)
+      "/#{ path.to_s.strip }".gsub(%r{//+}, '/')
+    end
   
     def set_title
       self.title = self.slug

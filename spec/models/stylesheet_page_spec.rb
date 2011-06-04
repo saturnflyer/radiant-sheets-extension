@@ -41,6 +41,21 @@ describe StylesheetPage do
     end
   end
   
+  describe '#digest' do
+    it 'should return an md5 hash of the rendered contents' do
+      site_css.digest.should == Digest::MD5.hexdigest(site_css.render)
+    end
+  end
+ 
+  describe '#path' do
+    it 'should include an md5 hash of the rendered contents' do
+      site_css.path.should == "/css/site.css?#{site_css.digest}"
+    end
+    it 'should not include an md5 hash of the rendered contents for the root' do
+      css.path.should == "/css/"
+    end
+  end
+
   context 'when validating a new page' do
     it "should automatically set the title to the given slug" do
       j = StylesheetPage.new(:slug => 'site.css')
@@ -77,4 +92,5 @@ describe StylesheetPage do
       end
     end
   end
+
 end

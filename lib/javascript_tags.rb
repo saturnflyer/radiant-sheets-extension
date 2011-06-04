@@ -9,7 +9,7 @@ as one of the following:
 
 * with no @as@ value the javascript's content is rendered by default.
 * @inline@ - wraps the javascript's content in an (X)HTML @<script>@ element.
-* @url@ - the full path to the javascript.
+* @path@ - the full path to the javascript.
 * @link@ - embeds the url in an (X)HTML @<script>@ element (creating a link to the external javascript).
 
 *Additional Options:*
@@ -38,16 +38,16 @@ The above example will produce the following:
     raise TagError.new("`javascript' tag must contain a `slug' attribute.") unless slug
     if (javascript = JavascriptPage.find_by_slug(slug))
       mime_type = tag.attr['type'] || javascript.headers['Content-Type']
-      url = javascript.url.sub(/\/$/,'') + '?' + javascript.updated_at.to_i.to_s
+      path = javascript.path
       optional_attributes = tag.attr.except('slug', 'name', 'as', 'type').inject('') { |s, (k, v)| s << %{#{k}="#{v}" } }.strip
       optional_attributes = " #{optional_attributes}" unless optional_attributes.empty?
       case tag.attr['as']
-      when 'url'
-        url
+      when 'url','path'
+        path
       when 'inline'
         %{<script type="#{mime_type}"#{optional_attributes}>\n//<![CDATA[\n#{javascript.render_part('body')}\n//]]>\n</script>}
       when 'link'
-        %{<script type="#{mime_type}" src="#{url}"#{optional_attributes}></script>}
+        %{<script type="#{mime_type}" src="#{path}"#{optional_attributes}></script>}
       else
         javascript.render_part('body')
       end
