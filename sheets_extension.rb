@@ -76,10 +76,11 @@ class SheetsExtension < Radiant::Extension
     end
     
     SiteController.class_eval do
-      cattr_writer :sheet_cache_timeout
-  
       def self.sheet_cache_timeout
-        @@sheet_cache_timeout ||= 30.days
+        @sheet_cache_timeout ||= 30.days
+      end
+      def self.sheet_cache_timeout=(val)
+        @sheet_cache_timeout = val
       end
       
       def set_cache_control_with_sheets
