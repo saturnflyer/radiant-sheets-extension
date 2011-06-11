@@ -132,4 +132,5 @@ Feature: Managing stylesheets
       """
       p{color:red}p a{color:blue;line-height:1.9}
       """
+    And the "Cache-Control" header should be "max-age=2592000"
     
