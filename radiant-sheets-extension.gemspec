@@ -24,9 +24,4 @@ Gem::Specification.new do |s|
   
   s.add_dependency 'sass', '~>3.1.2'
   s.add_dependency 'coffee-script', '~>2.2.0'
-  
-  s.post_install_message = %{
-  Add this to your radiant project with:
-    config.gem 'radiant-sheets-extension', :version => '~>#{RadiantSheetsExtension::VERSION}'
-  }
 end
