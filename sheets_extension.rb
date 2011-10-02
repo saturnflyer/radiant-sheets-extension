@@ -1,10 +1,6 @@
 # Uncomment this if you reference any of your controllers in activate
 require_dependency 'application_controller'
-begin
-  require 'compass'
-rescue
-  # Running on edge, compass already exists
-end
+require 'compass'
 require 'radiant-sheets-extension/version'
 
 class SheetsExtension < Radiant::Extension
