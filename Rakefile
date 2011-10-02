@@ -11,6 +11,15 @@ unless defined? RADIANT_ROOT
   end
 end
 
+unless defined? RAILS_ROOT
+  case
+  when File.dirname(__FILE__) =~ %r{vendor/radiant/vendor/extensions}
+    RAILS_ROOT = "#{File.expand_path(File.dirname(__FILE__) + "/../../../../../")}"
+  else
+    RAILS_ROOT = "#{File.expand_path(File.dirname(__FILE__) + "/../../../")}"
+  end
+end
+
 require 'rake'
 require 'rake/rdoctask'
 require 'rake/testtask'
