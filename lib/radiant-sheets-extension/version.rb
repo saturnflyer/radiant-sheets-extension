@@ -1,3 +1,3 @@
 module RadiantSheetsExtension
-  VERSION = '1.0.1.a'
+  VERSION = '1.0.2'
 end
