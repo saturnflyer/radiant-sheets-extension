@@ -30,9 +30,6 @@ require 'spec/rake/spectask'
 require 'cucumber'
 require 'cucumber/rake/task'
 
-vendored_cucumber_bin = Dir["#{Rails.root}/vendor/{gems,plugins}/cucumber*/bin/cucumber"].first
-$LOAD_PATH.unshift(File.dirname(vendored_cucumber_bin) + '/../lib') unless vendored_cucumber_bin.nil?
-
 # Cleanup the RADIANT_ROOT constant so specs will load the environment
 Object.send(:remove_const, :RADIANT_ROOT)
 
@@ -103,13 +100,11 @@ end
 
 namespace :cucumber do
   Cucumber::Rake::Task.new(:ok, 'Run features that should pass') do |t|
-    t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
     t.fork = true # You may get faster startup if you set this to false
     t.profile = 'default'
   end
 
   Cucumber::Rake::Task.new(:wip, 'Run features that are being worked on') do |t|
-    t.binary = vendored_cucumber_bin
     t.fork = true # You may get faster startup if you set this to false
     t.profile = 'wip'
   end
