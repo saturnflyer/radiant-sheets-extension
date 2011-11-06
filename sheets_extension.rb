@@ -20,6 +20,7 @@ class SheetsExtension < Radiant::Extension
     SassFilter
     ScssFilter
     CoffeeFilter
+    MenuRenderer.exclude 'JavascriptPage', 'StylesheetPage'
     
     tab 'Design' do
       add_item "Stylesheets", "/admin/styles"
