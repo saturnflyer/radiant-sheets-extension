@@ -1,0 +1,17 @@
+---
+nl: 
+  create_javascript: Creëer Javascript
+  create_stylesheet: Creëer Stylesheet
+  edit_javascript: Javascript aanpassen
+  edit_stylesheet: Stylesheet aanpassen
+  new_javascript: Nieuwe Javascript
+  new_stylesheet: Nieuwe Stylesheet
+  path: Pad
+  sheets: Sheets
+  upload: Uploaden
+  stylesheet_page: Stylesheet
+  javascript_page: Javascript
+  sheets:
+    root_required: "Je moet een homepage publiceren voor je een %{model} kunt maken."
+  no_styles: 'Geen Stylesheets'
+  no_scripts: 'Geen Javascripts'
