@@ -1,12 +1,12 @@
 %h1= model.new_record? ? t('new_javascript') : t('edit_javascript')
 - form_for [:admin, model], :url => (model.new_record? ? admin_scripts_url : admin_script_url(model)) do |f|
   %p.title
-    = label :sheet_page, :slug, 'Slug'
+    = label :sheet_page, :slug, t('slug')
     = f.text_field :slug, :class => 'textbox', :maxlength => 255, :id => 'sheet_page_slug'
     %span.hint= %{#{t('path')}: #{@root.url}<span id="this_slug">#{model.slug}</span>}
   - f.fields_for :parts do |p|
     %p.content
-      = p.label :content, 'Body'
+      = p.label :content, t('content')
       = p.hidden_field :name, :value => 'body' if model.new_record?
       = p.text_area :content, :class => 'textarea large', :style => 'width: 100%'
     %p

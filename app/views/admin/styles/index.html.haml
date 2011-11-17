@@ -3,9 +3,9 @@
   %table.index
     %thead
       %tr
-        %th Stylesheet
-        %th Filter
-        %th Modify
+        %th= t('stylesheet_page')
+        %th= t('filter')
+        %th= t('modify')
     %tbody
       - unless models.blank?
         - models.each do |stylesheet|

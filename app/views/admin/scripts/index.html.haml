@@ -3,9 +3,9 @@
   %table.index
     %thead
       %tr
-        %th Javascript
-        %th Filter
-        %th Modify
+        %th= t('javascript_page')
+        %th= t('filter')
+        %th= t('modify')
     %tbody
       - unless models.blank?
         - models.each do |javascript|
