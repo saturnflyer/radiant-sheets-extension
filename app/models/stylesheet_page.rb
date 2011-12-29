@@ -1,6 +1,5 @@
 class StylesheetPage < Page
   include Sheet::Instance
-  in_menu false
     
   def headers
     {'Content-Type' => 'text/css'}

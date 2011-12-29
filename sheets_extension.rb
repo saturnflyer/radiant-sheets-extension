@@ -36,19 +36,6 @@ class SheetsExtension < Radiant::Extension
       alias_method_chain :filter_options_for_select, :sheet_restrictions
     end
     
-    # Will only be called in 0.9.1 and below, avoid redeclaring
-    unless Page.respond_to?('in_menu')
-      Page.class_eval do
-        class_inheritable_accessor :in_menu
-        self.in_menu = true
-
-        class << self
-          alias_method :in_menu?, :in_menu
-          alias_method :in_menu, :in_menu=
-        end
-      end
-    end
-    
     Page.class_eval do      
       def sheet?
         self.class.included_modules.include?(Sheet::Instance)
