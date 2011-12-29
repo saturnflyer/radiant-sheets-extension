@@ -4,6 +4,24 @@ Sheets is a way to manage stylesheets and scripts from your existing page tree. 
 
 Pages of these types are Sheets.
 
+## Configuration
+
+Sheets have an option to output paths with a cache parameter which will create a digest of the rendered content.
+
+By setting `Radiant::Config['sheets.use_cache_param?]` to `true` the paths output from the `<r:stylesheet>` and `<r:javascript>` tags will appear like
+
+	/css/styles.css?bc4150d023d3255136db671d61ac93f2
+	/js/scripts.js?d6c5855a62cf32a4dadbc2831f0f295f
+	
+where the parameter is created from the rendered content of the sheet.
+	
+Without this set, the paths will be:
+
+	/css/styles.css
+	/js/scripts.js
+	
+and the pages will not be rendered to generate the path.
+
 ## Features
 
 The basic features:

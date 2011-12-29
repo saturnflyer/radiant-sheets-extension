@@ -8,6 +8,9 @@ describe "Javascript Tags" do
     let(:javascript_page){ pages(:site_js)}
 
   describe "<r:javascript>" do
+    before do
+      Radiant::Config['sheets.use_cache_param?'] = true
+    end
     subject { page }
     it { should render(%{<r:javascript />}).with_error("`javascript' tag must contain a `slug' attribute.") }
     it { should render(%{<r:javascript slug="bogus" />}).with_error("javascript bogus not found") }

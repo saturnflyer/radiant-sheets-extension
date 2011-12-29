@@ -48,6 +48,11 @@ describe JavascriptPage do
   end
  
   describe '#path' do
+
+    before do
+      Radiant::Config['sheets.use_cache_param?'] = true
+    end
+    
     it 'should include an md5 hash of the rendered contents' do
       site_js.path.should == "/js/site.js?#{site_js.digest}"
     end

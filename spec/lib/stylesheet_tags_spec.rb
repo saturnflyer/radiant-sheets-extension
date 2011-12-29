@@ -7,6 +7,9 @@ describe "Stylesheet Tags" do
   let(:page){ pages(:home) }
 
   describe "<r:stylesheet>" do
+    before do
+      Radiant::Config['sheets.use_cache_param?'] = true
+    end
     let(:site_css){pages(:site_css)}
     subject { page }
     it { should render(%{<r:stylesheet />}).with_error("`stylesheet' tag must contain a `slug' attribute.") }

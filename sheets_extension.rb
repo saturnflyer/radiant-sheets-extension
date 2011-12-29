@@ -38,7 +38,7 @@ class SheetsExtension < Radiant::Extension
     
     Page.class_eval do      
       def sheet?
-        self.class.included_modules.include?(Sheet::Instance)
+        self.is_a?(Sheet::Instance)
       end
 
       include JavascriptTags

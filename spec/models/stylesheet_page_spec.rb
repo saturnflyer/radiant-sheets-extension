@@ -48,6 +48,9 @@ describe StylesheetPage do
   end
  
   describe '#path' do
+    before do
+      Radiant::Config['sheets.use_cache_param?'] = true
+    end
     it 'should include an md5 hash of the rendered contents' do
       site_css.path.should == "/css/site.css?#{site_css.digest}"
     end
