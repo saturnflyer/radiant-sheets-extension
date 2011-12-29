@@ -76,8 +76,6 @@ module Sheet
         self.errors.add(:upload, 'not given. Please upload a file.')
       when !file.kind_of?(ActionController::UploadedFile)
         self.errors.add(:upload, 'is an unusable format.')
-      when file.size > 262144 # 256k (that's a HUGE script or stylesheet)
-        self.errors.add(:upload, 'file size is larger than 256kB. Please upload a smaller file.')
       else
         self.slug = file.original_filename.to_slug().gsub(/-css$/,'.css').gsub(/-js/,'.js')
         self.part('body').content = file.read
