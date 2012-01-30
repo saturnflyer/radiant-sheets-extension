@@ -54,24 +54,7 @@ namespace :radiant do
       namespace :import do
         desc "Creates new sheets pages from old SNS text_assets"
         task :sns => :environment do
-          class TextAsset < ActiveRecord::Base
-            belongs_to :created_by, :class_name => 'User'
-            belongs_to :updated_by, :class_name => 'User'
-          end
-          TextAsset.all.each do |ta| 
-            klass = (ta.class_name + 'Page').constantize
-            p "Importing #{klass} #{ta.name}"
-            sheet = klass.new_with_defaults
-            sheet.part('body').content = ta.content
-            sheet.part('body').filter_id = ta.filter_id
-            sheet.slug = ta.name
-            ta.attributes.each do |attribute, value|
-              if !attribute.match(/^(lock_version|id|content|filter_id|name|class_name)$/) && sheet.respond_to?("#{attribute}=")
-                sheet.send("#{attribute}=", value)
-              end
-            end
-            sheet.save!
-          end
+          SnsImporter.new.call
         end
       end
     end
