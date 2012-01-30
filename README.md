@@ -1,5 +1,7 @@
 # Sheets
 
+[![Build Status](https://secure.travis-ci.org/radiant/radiant-sheets-extension.png)](http://travis-ci.org/radiant/radiant-sheets-extension)
+
 Sheets is a way to manage stylesheets and scripts from your existing page tree. With Sheets, you'll create new types of pages: JavascriptPage and StylesheetPage.
 
 Pages of these types are Sheets.

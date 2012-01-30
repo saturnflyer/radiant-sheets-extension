@@ -5,7 +5,7 @@ if [[ $RADIANT_VERSION != "master" ]]
 then
   git checkout -b $RADIANT_VERSION $RADIANT_VERSION
 fi
-cp -r ~/builds/radiant/radiant-sheets-extension vendor/extensions/sheets
+cp -r ~/builds/*/radiant-sheets-extension vendor/extensions/sheets
 gem install bundler --pre
 echo 'gem "radiant-sheets-extension", :path => "vendor/extensions/sheets"' >> Gemfile
 bundle install
