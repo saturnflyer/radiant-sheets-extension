@@ -1,5 +1,6 @@
 class SnsImporter
   class OldTextAsset < ActiveRecord::Base
+    set_table_name 'text_assets'
     belongs_to :created_by, :class_name => 'User'
     belongs_to :updated_by, :class_name => 'User'
   end
@@ -36,20 +37,26 @@ class SnsImporter
     class_name = attrs.fetch 'class_name', 'Stylesheet'
     klass = (class_name + 'Page').constantize
     sheet = klass.new_with_defaults
-    
-    add_sheet_content(sheet, attrs)
-    set_sheet_parent(sheet, class_name)
 
     sheet.slug = attrs['name']
     
-    clean_attrs = clean_sns_attributes(sheet, attrs)
-    sheet.update_attributes(clean_attrs)
+    unless Page.exists?({:slug => sheet.slug, :parent_id => sheet.parent_id, :class_name => sheet.class_name})
+      add_sheet_content(sheet, attrs)
+      set_sheet_parent(sheet, class_name)
+
+      clean_attrs = clean_sns_attributes(sheet, attrs)
+      sheet.update_attributes(clean_attrs)
+    end
     
     sheet
   end
   
   def clean_sns_attributes(sheet, attrs)
-    attrs.delete_if{|att| att.match(/^(lock_version|id|content|filter_id|name|class_name)$/ || !sheet.respond_to?("#{attribute}=") }
+    clean_attrs = attrs.dup
+    clean_attrs.delete_if { |att|
+      att[0].to_s.match(/^(lock_version|id|content|filter_id|name|class_name)$/) || !sheet.respond_to?("#{att[0]}=")
+    }
+    clean_attrs
   end
   
   def add_sheet_content(sheet, attrs)
